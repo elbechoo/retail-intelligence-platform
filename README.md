@@ -19,6 +19,43 @@ The raw file is not committed. `ingest/load_raw.py` fetches it from UCI and
 loads it into DuckDB unchanged — a pipeline that cannot re-fetch its own input
 is not a pipeline.
 
+## Output
+
+Every chart below is rendered straight from the warehouse by
+`analysis/make_charts.py` and committed as SVG. They are not drawn in a tool
+and pasted in, so they cannot quietly go stale: re-run the script after a
+build and the picture follows the data.
+
+Hand-written SVG rather than matplotlib - no extra dependency to install, the
+output is text so git can diff it, and GitHub renders it inline.
+
+### Where the rows go
+
+![Composition of the raw lines](charts/qualite_donnees.svg)
+
+The chart to read first. A line in the file is not a sale, and the distance
+between those two numbers is most of the work on this project.
+
+### Revenue by month
+
+![Monthly revenue](charts/revenu_mensuel.svg)
+
+The November peak is real, not a seasonality weight someone typed in: this is
+a UK gift wholesaler shipping stock to retailers before Christmas.
+
+### Lifetime value by RFM segment
+
+![RFM segments](charts/segments_rfm.svg)
+
+### Cohort retention
+
+![Cohort retention](charts/retention_cohortes.svg)
+
+Cohorts under 30 customers are excluded. A cohort of four can only ever show
+0%, 25%, 50% or 75%, which looks like dramatic movement on a heatmap and means
+nothing. Later cohorts are truncated by the end of the data - that is the
+dataset ending, not customers leaving.
+
 ## What makes this dataset worth the trouble
 
 It is genuinely messy, and handling the mess correctly is the actual work:
@@ -98,6 +135,9 @@ python ingest/load_raw.py          # downloads ~45 MB from UCI, loads to DuckDB
 cd dbt
 dbt deps   --profiles-dir .
 dbt build  --profiles-dir .        # runs every model and every test
+cd ..
+
+python analysis/make_charts.py     # re-render the README charts from the marts
 ```
 
 Then query it with anything that speaks DuckDB:

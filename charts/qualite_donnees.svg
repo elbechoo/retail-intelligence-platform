@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif">
+<rect width="900" height="300" fill="white"/>
+<text x="24" y="34" font-size="17" font-weight="600" fill="#1f2933">Composition des 1 067 371 lignes brutes</text>
+<text x="24" y="54" font-size="12" fill="#8b98a5">Une ligne du fichier n&#x27;est pas une vente. L&#x27;ecart entre les deux, c&#x27;est le travail.</text>
+<rect x="24.0" y="92" width="638.7" height="44" fill="#2f6f9f" rx="2"/>
+<text x="344.3" y="118.0" font-size="11" fill="white" text-anchor="middle" font-weight="600">75.2%</text>
+<rect x="664.7" y="92" width="185.1" height="44" fill="#9fc3dc" rx="2"/>
+<text x="758.3" y="118.0" font-size="11" fill="white" text-anchor="middle" font-weight="600">22.0%</text>
+<rect x="851.8" y="92" width="13.6" height="44" fill="#b4541f" rx="2"/>
+<rect x="867.4" y="92" width="1.7" height="44" fill="#d9a441" rx="2"/>
+<rect x="871.1" y="92" width="2.9" height="44" fill="#8b98a5" rx="2"/>
+<rect x="24" y="162" width="12" height="12" fill="#2f6f9f" rx="2"/>
+<text x="44" y="172" font-size="12" fill="#1f2933">Ventes attribuables</text>
+<text x="274" y="172" font-size="12" fill="#8b98a5">802 634</text>
+<rect x="24" y="184" width="12" height="12" fill="#9fc3dc" rx="2"/>
+<text x="44" y="194" font-size="12" fill="#1f2933">Ventes sans client</text>
+<text x="274" y="194" font-size="12" fill="#8b98a5">234 447</text>
+<rect x="24" y="206" width="12" height="12" fill="#b4541f" rx="2"/>
+<text x="44" y="216" font-size="12" fill="#1f2933">Annulations (retours)</text>
+<text x="274" y="216" font-size="12" fill="#8b98a5">19 494</text>
+<rect x="24" y="228" width="12" height="12" fill="#d9a441" rx="2"/>
+<text x="44" y="238" font-size="12" fill="#1f2933">Hors produit (port, frais)</text>
+<text x="274" y="238" font-size="12" fill="#8b98a5">4 622</text>
+<rect x="24" y="250" width="12" height="12" fill="#8b98a5" rx="2"/>
+<text x="44" y="260" font-size="12" fill="#1f2933">Quantite ou prix invalide</text>
+<text x="274" y="260" font-size="12" fill="#8b98a5">6 174</text>
+<text x="24" y="286" font-size="10" fill="#8b98a5">Source : main_staging.stg_retail__lines, qui ne supprime aucune ligne</text>
+</svg>
