@@ -1,0 +1,28 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_date
+ref table dim_client
+ref table dim_produit
+ref table fct_commande
+ref table fct_ligne_commande
+ref table fct_rfm
+ref table fct_retention_cohorte
+ref table DateTableTemplate_2f4fa951-0dd8-4e29-b648-f7e4e466e013
+ref table LocalDateTable_414b2082-4943-4772-97a1-2af9e01631b2
+ref table LocalDateTable_6a10f6ff-5827-44a8-be6a-08800e9a9f05
+ref table LocalDateTable_81fa6c14-b57e-492c-a3c4-3b8f9b4a9938
+ref table LocalDateTable_942856d4-847e-40c5-89c2-cf2d44f8c2cf
+ref table LocalDateTable_154a1cf4-2fd6-46b6-94e9-041e6d6f6d18
+ref table LocalDateTable_1446daab-2108-49ca-b69a-22e153622e5f
+ref table LocalDateTable_69710f79-0279-4261-b32a-dc5aeda95b96
+ref table LocalDateTable_2e5dfc78-3da0-4ae5-a0df-a5110cc88d20
+ref table LocalDateTable_d5254cc8-acfa-42b7-b98f-4fd394305453
+ref table LocalDateTable_d3bba69c-2cc4-4a75-ad2b-34fbdc23bbd9
+ref table LocalDateTable_939f19a1-84be-47e2-8311-fb8922a85da6
+

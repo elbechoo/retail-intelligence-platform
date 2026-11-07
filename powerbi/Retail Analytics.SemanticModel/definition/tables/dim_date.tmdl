@@ -1,0 +1,68 @@
+/// Conformed date dimension, one row per day
+table dim_date
+	lineageTag: d14ef962-c10d-471f-846d-9015979d5b3b
+	dataCategory: Time
+
+	column date_id
+		dataType: int64
+		lineageTag: 6aed3230-0012-4a69-b2db-01bf8c48fd25
+		sourceColumn: date_id
+
+	column date_complete
+		dataType: dateTime
+		isKey
+		lineageTag: 42527a7c-4a32-4f75-8657-ce35205b8fbb
+		sourceColumn: date_complete
+
+	column annee
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 3e534865-60af-40e3-bd26-9289de2b09ac
+		sourceColumn: annee
+
+	column mois
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 5d4c624c-7c4e-4762-96fb-75c189b51003
+		sourceColumn: mois
+
+	column trimestre
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 67f30bcf-7da5-4fdf-89e6-3c6e28834587
+		sourceColumn: trimestre
+
+	column annee_mois
+		dataType: string
+		lineageTag: d574a929-392f-4be1-923d-bdbe0727f94e
+		sourceColumn: annee_mois
+
+	column debut_mois
+		dataType: dateTime
+		lineageTag: ed978d0a-5b4e-4673-a5b6-aa98fd307606
+		sourceColumn: debut_mois
+
+	column jour_semaine_num
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 6aa1f9ee-568a-4722-9ef6-bdeb091bb053
+		sourceColumn: jour_semaine_num
+
+	column jour_semaine
+		dataType: string
+		lineageTag: a468f1a1-978f-490d-a39b-488976818dbd
+		sourceColumn: jour_semaine
+
+	column est_weekend
+		dataType: boolean
+		lineageTag: f575ffd6-93c4-47ac-aeeb-8f4309f4ad0b
+		sourceColumn: est_weekend
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\MSI\retail-v2-repo\powerbi\data\dim_date.parquet"))
+				in
+				    Source
+

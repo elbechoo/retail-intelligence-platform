@@ -24,7 +24,17 @@ typed as (
 
     select
         trim(invoice)                                       as invoice,
-        trim(stock_code)                                    as stock_code,
+        -- Upper-cased on purpose. The source contains the same product
+        -- under both '15056BL' and '15056bl'. DuckDB compares strings
+        -- case-sensitively, so they survive as two products and a unique
+        -- test on the key passes. Power BI's engine compares
+        -- case-INSENSITIVELY, so it sees a duplicate key and refuses to load
+        -- the dimension at all.
+        --
+        -- They are the same product, so the warehouse should say so rather
+        -- than leave every downstream consumer to discover the difference.
+        -- tests/assert_produit_id_unique_sans_casse.sql guards it.
+        upper(trim(stock_code))                             as stock_code,
         nullif(trim(description), '')                       as description,
 
         {{ texte_vers_entier('quantity') }}                 as quantity,

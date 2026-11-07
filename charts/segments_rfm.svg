@@ -4,16 +4,16 @@
 <text x="24" y="54" font-size="12" fill="#8b98a5">Scores par quintile sur recence, frequence et montant. Recence mesuree contre la derniere date du jeu, pas aujourd&#x27;hui.</text>
 <text x="178" y="97" font-size="12" fill="#1f2933" text-anchor="end">Champions</text>
 <rect x="190" y="80" width="580.0" height="26" fill="#2f6f9f" rx="3"/>
-<text x="780.0" y="97" font-size="11" fill="#8b98a5">12.00M GBP  (1335 clients)</text>
+<text x="780.0" y="97" font-size="11" fill="#8b98a5">12.01M GBP  (1337 clients)</text>
 <text x="178" y="135" font-size="12" fill="#1f2933" text-anchor="end">Clients fideles</text>
-<rect x="190" y="118" width="136.2" height="26" fill="#9fc3dc" rx="3"/>
-<text x="336.2" y="135" font-size="11" fill="#8b98a5">2.82M GBP  (1356 clients)</text>
+<rect x="190" y="118" width="135.9" height="26" fill="#9fc3dc" rx="3"/>
+<text x="335.9" y="135" font-size="11" fill="#8b98a5">2.81M GBP  (1354 clients)</text>
 <text x="178" y="173" font-size="12" fill="#1f2933" text-anchor="end">A risque</text>
-<rect x="190" y="156" width="53.8" height="26" fill="#b4541f" rx="3"/>
-<text x="253.8" y="173" font-size="11" fill="#8b98a5">1.11M GBP  (352 clients)</text>
+<rect x="190" y="156" width="53.7" height="26" fill="#b4541f" rx="3"/>
+<text x="253.7" y="173" font-size="11" fill="#8b98a5">1.11M GBP  (351 clients)</text>
 <text x="178" y="211" font-size="12" fill="#1f2933" text-anchor="end">A developper</text>
 <rect x="190" y="194" width="37.7" height="26" fill="#9fc3dc" rx="3"/>
-<text x="237.7" y="211" font-size="11" fill="#8b98a5">0.78M GBP  (845 clients)</text>
+<text x="237.7" y="211" font-size="11" fill="#8b98a5">0.78M GBP  (846 clients)</text>
 <text x="178" y="249" font-size="12" fill="#1f2933" text-anchor="end">Perdus</text>
 <rect x="190" y="232" width="26.4" height="26" fill="#b4541f" rx="3"/>
 <text x="226.4" y="249" font-size="11" fill="#8b98a5">0.55M GBP  (1521 clients)</text>

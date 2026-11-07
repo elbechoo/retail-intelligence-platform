@@ -1,0 +1,73 @@
+/// Grain: one acquisition cohort per month offset
+table fct_retention_cohorte
+	lineageTag: 9b82d034-02fe-4169-869c-f2e08f8813ba
+
+	column cohorte_mois
+		dataType: dateTime
+		lineageTag: 84da7bf4-1b16-431e-bad7-7f3c92cfe0ea
+		summarizeBy: none
+		sourceColumn: cohorte_mois
+
+		variation Variation
+			isDefault
+			relationship: 98b8a719-1c01-4d30-a4ab-07ce370830f7
+			defaultHierarchy: LocalDateTable_d3bba69c-2cc4-4a75-ad2b-34fbdc23bbd9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mois_activite
+		dataType: dateTime
+		lineageTag: bd7adf44-173b-4785-8feb-16b394ff550a
+		summarizeBy: none
+		sourceColumn: mois_activite
+
+		variation Variation
+			isDefault
+			relationship: 28b2adc6-e764-4471-8ce8-04e696d184cc
+			defaultHierarchy: LocalDateTable_939f19a1-84be-47e2-8311-fb8922a85da6.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mois_depuis_acquisition
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 225b2901-7f6b-4e63-85c8-7897884ef499
+		summarizeBy: sum
+		sourceColumn: mois_depuis_acquisition
+
+		annotation SummarizationSetBy = Automatic
+
+	column clients_cohorte
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 9191ed3f-6755-43df-ac0e-c7425846b1d5
+		summarizeBy: sum
+		sourceColumn: clients_cohorte
+
+		annotation SummarizationSetBy = Automatic
+
+	column clients_actifs
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 1ff6da1f-dcf5-4cc8-a783-6fc964f8e8e2
+		summarizeBy: sum
+		sourceColumn: clients_actifs
+
+		annotation SummarizationSetBy = Automatic
+
+	column taux_retention
+		dataType: double
+		lineageTag: 930a576c-a9c4-468d-b8c4-7bcdb49a1949
+		summarizeBy: sum
+		sourceColumn: taux_retention
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_retention_cohorte = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\MSI\retail-v2-repo\powerbi\data\fct_retention_cohorte.parquet"))
+				in
+				    Source
+

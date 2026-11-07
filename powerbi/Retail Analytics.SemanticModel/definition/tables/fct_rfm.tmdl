@@ -1,0 +1,65 @@
+/// Grain: one customer, RFM scores and segment
+table fct_rfm
+	lineageTag: 9aa639e8-43b1-4899-bb51-4c04a5545bf6
+
+	column client_id
+		dataType: int64
+		isKey
+		lineageTag: bf2c4ae2-ebf5-4fc6-ac48-81a21c28ef1f
+		sourceColumn: client_id
+
+	column recence_jours
+		dataType: int64
+		formatString: #,##0
+		lineageTag: a0fd561c-00a3-4511-8f30-d60c87b4df60
+		sourceColumn: recence_jours
+
+	column frequence
+		dataType: int64
+		formatString: #,##0
+		lineageTag: caf35921-c142-4d27-806e-9576c4165db3
+		sourceColumn: frequence
+
+	column montant
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: 08f0629d-6388-4ef6-a3f7-dd477757aaef
+		sourceColumn: montant
+
+	column score_recence
+		dataType: int64
+		formatString: #,##0
+		lineageTag: c6cbacec-d06d-4eb8-a779-cf3b47d2e802
+		sourceColumn: score_recence
+
+	column score_frequence
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 17c92014-0922-42fe-97b9-2a105da5d11e
+		sourceColumn: score_frequence
+
+	column score_montant
+		dataType: int64
+		formatString: #,##0
+		lineageTag: c936ba53-adcd-48e3-b876-6db8fb2d7b47
+		sourceColumn: score_montant
+
+	column score_rfm
+		dataType: int64
+		formatString: #,##0
+		lineageTag: ead39359-e905-4880-ad20-31f49134cdca
+		sourceColumn: score_rfm
+
+	column segment
+		dataType: string
+		lineageTag: dfd0eefb-62bf-43fc-a73c-8bbcef274d82
+		sourceColumn: segment
+
+	partition fct_rfm = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\MSI\retail-v2-repo\powerbi\data\fct_rfm.parquet"))
+				in
+				    Source
+

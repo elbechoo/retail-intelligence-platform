@@ -1,0 +1,197 @@
+/// Grain: one attributable sale line
+table fct_ligne_commande
+	lineageTag: d710fca2-c2b5-4831-8683-e376559da6e8
+
+	/// Revenue from attributable sale lines, GBP. Excludes unattributed invoices - use fct_commande for those.
+	measure 'Total Revenue' = SUM ( fct_ligne_commande[montant] )
+		formatString: #,##0
+		displayFolder: Sales
+		lineageTag: 49b657e7-7c14-478e-a46e-d73498854f57
+
+	/// Distinct invoices containing attributable sale lines.
+	measure Orders = DISTINCTCOUNT ( fct_ligne_commande[commande_id] )
+		formatString: #,##0
+		displayFolder: Sales
+		lineageTag: 34517a89-55ab-4da0-81de-d6eb6d2757ac
+
+	/// Distinct customers who bought in the current filter context.
+	measure Customers = DISTINCTCOUNT ( fct_ligne_commande[client_id] )
+		formatString: #,##0
+		displayFolder: Sales
+		lineageTag: b0321a89-59dc-446e-a158-70ba51520424
+
+	/// Total units across attributable sale lines.
+	measure 'Units Sold' = SUM ( fct_ligne_commande[quantite] )
+		formatString: #,##0
+		displayFolder: Sales
+		lineageTag: c883dc5a-f276-4590-9624-2805a2545b4f
+
+	/// DIVIDE, not /, so an empty filter context returns blank rather than an error.
+	measure 'Average Order Value' = DIVIDE ( [Total Revenue], [Orders] )
+		formatString: #,##0.00
+		displayFolder: Sales
+		lineageTag: 569f6397-86ac-44e0-964d-06f897ec2cad
+
+	/// Revenue divided by distinct buying customers.
+	measure 'Revenue per Customer' = DIVIDE ( [Total Revenue], [Customers] )
+		formatString: #,##0.00
+		displayFolder: Sales
+		lineageTag: c86659c6-b282-4437-82b5-9e130ee0fce4
+
+	/// Basket breadth: distinct products per invoice.
+	measure 'Lines per Order' = DIVIDE ( COUNTROWS ( fct_ligne_commande ), [Orders] )
+		formatString: #,##0.0
+		displayFolder: Sales
+		lineageTag: db1c94b8-eb9e-45c5-87e3-8d75ea592adb
+
+	/// Customers with more than one order over their lifetime.
+	measure 'Returning Customers' = CALCULATE ( DISTINCTCOUNT ( dim_client[client_id] ), dim_client[est_recurrent] = TRUE () )
+		formatString: #,##0
+		displayFolder: Sales
+		lineageTag: 4b454dbd-e18f-4a50-8813-dbd3028c1cc4
+
+	/// Share of customers who ordered more than once. High here because the buyers are mostly wholesale.
+	measure 'Returning Customer Rate' = DIVIDE ( [Returning Customers], DISTINCTCOUNT ( dim_client[client_id] ) )
+		formatString: 0.0%
+		displayFolder: Sales
+		lineageTag: 34070277-04a8-4379-bb83-ff7bcd209183
+
+	/// Requires dim_date to be marked as the date table.
+	measure 'Revenue LY' = CALCULATE ( [Total Revenue], SAMEPERIODLASTYEAR ( dim_date[date_complete] ) )
+		formatString: #,##0
+		displayFolder: Sales
+		lineageTag: 5153a50b-5f0b-49c2-b082-68a45b03cc47
+
+	/// Blank where there is no prior year - the data starts in December 2009.
+	measure 'Revenue YoY %' = DIVIDE ( [Total Revenue] - [Revenue LY], [Revenue LY] )
+		formatString: 0.0%
+		displayFolder: Sales
+		lineageTag: 5081a4ac-1de2-4763-8612-26b3ed513636
+
+	column ligne_id
+		dataType: string
+		isKey
+		lineageTag: 18c60b11-36b4-4b55-bcdd-d22f0d7cf647
+		summarizeBy: none
+		sourceColumn: ligne_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column commande_id
+		dataType: string
+		lineageTag: 7b38fa1c-7652-45cb-92b5-ead18db11ce7
+		summarizeBy: none
+		sourceColumn: commande_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column numero_occurrence
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 1112704b-7964-467c-b807-6eee26bc7003
+		summarizeBy: sum
+		sourceColumn: numero_occurrence
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_id
+		dataType: int64
+		lineageTag: 28271b69-491a-42b5-b2c8-5d212d976557
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column client_id
+		dataType: int64
+		lineageTag: f2409151-5927-4def-a133-fec0ab63ea69
+		summarizeBy: none
+		sourceColumn: client_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column produit_id
+		dataType: string
+		lineageTag: 21bf4308-4dd7-45d9-a9db-ee3ff3491e41
+		summarizeBy: none
+		sourceColumn: produit_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_at
+		dataType: dateTime
+		lineageTag: 631ed3b8-fb0f-4a68-b2f4-6a5f0449b8f9
+		summarizeBy: none
+		sourceColumn: invoice_at
+
+		variation Variation
+			isDefault
+			relationship: 3a733b0c-2075-4ddc-8e0c-1e807e22e0f9
+			defaultHierarchy: LocalDateTable_2e5dfc78-3da0-4ae5-a0df-a5110cc88d20.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_date
+		dataType: dateTime
+		lineageTag: 758450d1-fce3-4fbe-8f0b-682adce47095
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+		variation Variation
+			isDefault
+			relationship: 565cb27e-4b9e-45ef-bdee-ac3ee74219c7
+			defaultHierarchy: LocalDateTable_d5254cc8-acfa-42b7-b98f-4fd394305453.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantite
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 17d5e29e-5e01-4077-a533-dc1ba86bf30c
+		summarizeBy: sum
+		sourceColumn: quantite
+
+		annotation SummarizationSetBy = Automatic
+
+	column prix_unitaire
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: 670f5f7e-7d02-4654-afe0-985d13f193be
+		summarizeBy: sum
+		sourceColumn: prix_unitaire
+
+		annotation SummarizationSetBy = Automatic
+
+	column montant
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: 078a4dfc-d5b4-4df6-8365-054d700ffcee
+		summarizeBy: sum
+		sourceColumn: montant
+
+		annotation SummarizationSetBy = Automatic
+
+	column pays
+		dataType: string
+		lineageTag: 12470533-112c-4fb9-a31c-8f1be0e6304e
+		summarizeBy: none
+		sourceColumn: pays
+
+		annotation SummarizationSetBy = Automatic
+
+	column source_sheet
+		dataType: string
+		lineageTag: a76291ca-5a98-4368-ae0f-f63d60c647bf
+		summarizeBy: none
+		sourceColumn: source_sheet
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_ligne_commande = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\MSI\retail-v2-repo\powerbi\data\fct_ligne_commande.parquet"))
+				in
+				    Source
+

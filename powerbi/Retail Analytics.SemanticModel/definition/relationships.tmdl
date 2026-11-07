@@ -1,0 +1,79 @@
+relationship Relationship
+	fromColumn: fct_ligne_commande.date_id
+	toColumn: dim_date.date_id
+
+relationship 'Relationship 1'
+	fromColumn: fct_ligne_commande.client_id
+	toColumn: dim_client.client_id
+
+relationship 'Relationship 2'
+	fromColumn: fct_ligne_commande.produit_id
+	toColumn: dim_produit.produit_id
+
+relationship 'Relationship 3'
+	fromColumn: fct_commande.date_id
+	toColumn: dim_date.date_id
+
+relationship 'Relationship 4'
+	fromColumn: fct_commande.client_id
+	toColumn: dim_client.client_id
+
+relationship 'Relationship 5'
+	fromColumn: fct_rfm.client_id
+	toColumn: dim_client.client_id
+
+relationship 85ec284b-26cc-4617-932d-d4d5e5f331ec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_client.date_premiere_commande
+	toColumn: LocalDateTable_414b2082-4943-4772-97a1-2af9e01631b2.Date
+
+relationship 310f8783-683e-446b-9b9a-0f158c48fc12
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_client.date_derniere_commande
+	toColumn: LocalDateTable_6a10f6ff-5827-44a8-be6a-08800e9a9f05.Date
+
+relationship e1f8a8c0-cdf2-4bad-b75a-eef08b23f8e0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_client.cohorte_mois
+	toColumn: LocalDateTable_81fa6c14-b57e-492c-a3c4-3b8f9b4a9938.Date
+
+relationship de6176bf-7b14-4b0a-8059-7fe8b0671927
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_produit.premiere_vente
+	toColumn: LocalDateTable_942856d4-847e-40c5-89c2-cf2d44f8c2cf.Date
+
+relationship d2e0441c-af5b-48b9-a5f4-f1866a92bb3f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_produit.derniere_vente
+	toColumn: LocalDateTable_154a1cf4-2fd6-46b6-94e9-041e6d6f6d18.Date
+
+relationship b1c452ce-7e0b-43e9-b3c7-c58fb3d4ebdc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_commande.invoice_at
+	toColumn: LocalDateTable_1446daab-2108-49ca-b69a-22e153622e5f.Date
+
+relationship 57a361cf-6cc0-4712-8991-200be1e424a4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_commande.invoice_date
+	toColumn: LocalDateTable_69710f79-0279-4261-b32a-dc5aeda95b96.Date
+
+relationship 3a733b0c-2075-4ddc-8e0c-1e807e22e0f9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_ligne_commande.invoice_at
+	toColumn: LocalDateTable_2e5dfc78-3da0-4ae5-a0df-a5110cc88d20.Date
+
+relationship 565cb27e-4b9e-45ef-bdee-ac3ee74219c7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_ligne_commande.invoice_date
+	toColumn: LocalDateTable_d5254cc8-acfa-42b7-b98f-4fd394305453.Date
+
+relationship 98b8a719-1c01-4d30-a4ab-07ce370830f7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_retention_cohorte.cohorte_mois
+	toColumn: LocalDateTable_d3bba69c-2cc4-4a75-ad2b-34fbdc23bbd9.Date
+
+relationship 28b2adc6-e764-4471-8ce8-04e696d184cc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_retention_cohorte.mois_activite
+	toColumn: LocalDateTable_939f19a1-84be-47e2-8311-fb8922a85da6.Date
+

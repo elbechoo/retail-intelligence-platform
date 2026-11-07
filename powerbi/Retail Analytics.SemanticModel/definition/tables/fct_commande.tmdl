@@ -1,0 +1,106 @@
+/// Grain: one sale invoice, including unattributed
+table fct_commande
+	lineageTag: 88917bc5-1e91-4ebe-ae41-a7d70adaa031
+
+	column commande_id
+		dataType: string
+		isKey
+		lineageTag: 926c5916-13d3-46c8-af70-fdaf2c12a2ab
+		summarizeBy: none
+		sourceColumn: commande_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_id
+		dataType: int64
+		lineageTag: d01c086f-6713-4c9f-ae58-4ceff5a6e3e7
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column client_id
+		dataType: int64
+		lineageTag: 026aacbc-61d2-4faa-aef7-3f663e75981d
+		summarizeBy: none
+		sourceColumn: client_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column est_non_attribuee
+		dataType: boolean
+		lineageTag: fcd0bcdb-8e14-42e3-bd92-1626c46c824a
+		summarizeBy: none
+		sourceColumn: est_non_attribuee
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_at
+		dataType: dateTime
+		lineageTag: cd0d2f20-f38c-4c53-a40f-026fa0c043e6
+		summarizeBy: none
+		sourceColumn: invoice_at
+
+		variation Variation
+			isDefault
+			relationship: b1c452ce-7e0b-43e9-b3c7-c58fb3d4ebdc
+			defaultHierarchy: LocalDateTable_1446daab-2108-49ca-b69a-22e153622e5f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_date
+		dataType: dateTime
+		lineageTag: 77ad7f79-bfb9-42b0-a6a6-532200ae4e1b
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+		variation Variation
+			isDefault
+			relationship: 57a361cf-6cc0-4712-8991-200be1e424a4
+			defaultHierarchy: LocalDateTable_69710f79-0279-4261-b32a-dc5aeda95b96.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column pays
+		dataType: string
+		lineageTag: f29a7f05-3a62-4322-ab9b-901ebcedfc0d
+		summarizeBy: none
+		sourceColumn: pays
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_lignes
+		dataType: int64
+		formatString: #,##0
+		lineageTag: b9afa124-b82f-4bfd-93bb-458050340692
+		summarizeBy: sum
+		sourceColumn: nb_lignes
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantite
+		dataType: int64
+		formatString: #,##0
+		lineageTag: ff94e551-8de2-408b-b53f-4e24ccc561ee
+		summarizeBy: sum
+		sourceColumn: quantite
+
+		annotation SummarizationSetBy = Automatic
+
+	column montant
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: afd5ab5c-2f43-462f-b847-21909b439e0a
+		summarizeBy: sum
+		sourceColumn: montant
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fct_commande = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\MSI\retail-v2-repo\powerbi\data\fct_commande.parquet"))
+				in
+				    Source
+

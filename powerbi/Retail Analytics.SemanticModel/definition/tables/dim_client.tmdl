@@ -1,0 +1,155 @@
+/// Customer dimension, attributable customers only
+table dim_client
+	lineageTag: cbb92421-5c6d-4723-af1a-576171144430
+
+	column client_id
+		dataType: int64
+		isKey
+		lineageTag: e12e7b7c-48b0-4fc4-a177-a3c0ff95ac51
+		summarizeBy: none
+		sourceColumn: client_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pays
+		dataType: string
+		lineageTag: f43c14b1-0dfb-45dd-a537-8d20a666bb0f
+		summarizeBy: none
+		sourceColumn: pays
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_premiere_commande
+		dataType: dateTime
+		lineageTag: 6b9e9e35-61a5-4fd4-bccb-02344f0c2131
+		summarizeBy: none
+		sourceColumn: date_premiere_commande
+
+		variation Variation
+			isDefault
+			relationship: 85ec284b-26cc-4617-932d-d4d5e5f331ec
+			defaultHierarchy: LocalDateTable_414b2082-4943-4772-97a1-2af9e01631b2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_derniere_commande
+		dataType: dateTime
+		lineageTag: 1f546d02-520f-4b67-94e2-fc64ada72e6b
+		summarizeBy: none
+		sourceColumn: date_derniere_commande
+
+		variation Variation
+			isDefault
+			relationship: 310f8783-683e-446b-9b9a-0f158c48fc12
+			defaultHierarchy: LocalDateTable_6a10f6ff-5827-44a8-be6a-08800e9a9f05.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohorte_mois
+		dataType: dateTime
+		lineageTag: 4a835587-a8d7-43ed-a10b-b1a6cf62e6bd
+		summarizeBy: none
+		sourceColumn: cohorte_mois
+
+		variation Variation
+			isDefault
+			relationship: e1f8a8c0-cdf2-4bad-b75a-eef08b23f8e0
+			defaultHierarchy: LocalDateTable_81fa6c14-b57e-492c-a3c4-3b8f9b4a9938.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column duree_vie_jours
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 326e5c2b-3512-4bf6-91bf-0a380aa7d2f5
+		summarizeBy: sum
+		sourceColumn: duree_vie_jours
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_commandes
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 0a3fe824-b634-4dad-a5fa-0b640b7332da
+		summarizeBy: sum
+		sourceColumn: nb_commandes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_lignes
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 878794f3-e0b2-4f35-9d9f-923458f77c54
+		summarizeBy: sum
+		sourceColumn: nb_lignes
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantite_totale
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 59a7508f-c3ec-4fdb-b4c0-c34818b35a46
+		summarizeBy: sum
+		sourceColumn: quantite_totale
+
+		annotation SummarizationSetBy = Automatic
+
+	column valeur_vie
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: 21c269ff-ea09-4352-a75f-aba043ae5cb9
+		summarizeBy: sum
+		sourceColumn: valeur_vie
+
+		annotation SummarizationSetBy = Automatic
+
+	column panier_moyen
+		dataType: double
+		lineageTag: 908c4604-1479-447d-b02a-7670e566b8f3
+		summarizeBy: sum
+		sourceColumn: panier_moyen
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_retours
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 68c89fe4-1fab-4a99-bb7b-d30be7f8fb39
+		summarizeBy: sum
+		sourceColumn: nb_retours
+
+		annotation SummarizationSetBy = Automatic
+
+	column montant_retourne
+		dataType: decimal
+		formatString: #,##0.00
+		lineageTag: 09198f3e-8227-4e13-b8cd-e838aa70f60e
+		summarizeBy: sum
+		sourceColumn: montant_retourne
+
+		annotation SummarizationSetBy = Automatic
+
+	column taux_retour
+		dataType: double
+		lineageTag: 8779a858-53a9-4f42-b664-e2bb1ae2e0a8
+		summarizeBy: sum
+		sourceColumn: taux_retour
+
+		annotation SummarizationSetBy = Automatic
+
+	column est_recurrent
+		dataType: boolean
+		lineageTag: eba3914f-6469-4230-8438-932f18724c98
+		summarizeBy: none
+		sourceColumn: est_recurrent
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_client = m
+		mode: import
+		source =
+				let
+				    Source = Parquet.Document(File.Contents("C:\Users\MSI\retail-v2-repo\powerbi\data\dim_client.parquet"))
+				in
+				    Source
+
