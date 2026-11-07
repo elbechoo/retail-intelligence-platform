@@ -38,7 +38,7 @@ table dim_produit
 		annotation SummarizationSetBy = Automatic
 
 	column quantite_totale
-		dataType: int64
+		dataType: double
 		formatString: #,##0
 		lineageTag: 85fa3257-25c6-41f2-9abc-812cfad87f55
 		summarizeBy: sum
@@ -47,7 +47,7 @@ table dim_produit
 		annotation SummarizationSetBy = Automatic
 
 	column chiffre_affaires
-		dataType: decimal
+		dataType: double
 		formatString: #,##0.00
 		lineageTag: 7691dc7b-65b1-4169-9cd4-6cb24cbf0127
 		summarizeBy: sum
@@ -65,6 +65,7 @@ table dim_produit
 
 	column premiere_vente
 		dataType: dateTime
+		formatString: Long Date
 		lineageTag: 9dde16c3-050c-4772-adb2-924dd8723888
 		summarizeBy: none
 		sourceColumn: premiere_vente
@@ -76,8 +77,11 @@ table dim_produit
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column derniere_vente
 		dataType: dateTime
+		formatString: Long Date
 		lineageTag: 73019129-d322-4142-aefe-cbd7cc24ce6c
 		summarizeBy: none
 		sourceColumn: derniere_vente
@@ -88,6 +92,8 @@ table dim_produit
 			defaultHierarchy: LocalDateTable_154a1cf4-2fd6-46b6-94e9-041e6d6f6d18.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition dim_produit = m
 		mode: import

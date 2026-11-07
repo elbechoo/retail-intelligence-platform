@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 626.87781439810522,
+            "y": 128.08546327953906
+          },
+          "nodeIndex": "dim_client",
+          "nodeLineageTag": "cbb92421-5c6d-4723-af1a-576171144430",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50.327116021008806,
+            "y": 361.82907999389761
+          },
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "d14ef962-c10d-471f-846d-9015979d5b3b",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 339.58635940502711,
+            "y": 34.963884042830045
+          },
+          "nodeIndex": "dim_produit",
+          "nodeLineageTag": "2dd9f62f-788e-4fe6-bcdf-4f77ed47b5eb",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 339.35687880511273,
+            "y": 485.38512341940873
+          },
+          "nodeIndex": "fct_commande",
+          "nodeLineageTag": "88917bc5-1e91-4ebe-ae41-a7d70adaa031",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": -50
+          },
+          "nodeIndex": "fct_ligne_commande",
+          "nodeLineageTag": "d710fca2-c2b5-4831-8683-e376559da6e8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1145.088523600881,
+            "y": 305.69256170970436
+          },
+          "nodeIndex": "fct_retention_cohorte",
+          "nodeLineageTag": "9b82d034-02fe-4169-869c-f2e08f8813ba",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 911.0885236008811,
+            "y": -20.717976021103368
+          },
+          "nodeIndex": "fct_rfm",
+          "nodeLineageTag": "9aa639e8-43b1-4899-bb51-4c04a5545bf6",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "table_produits",
+  "position": {
+    "x": 20,
+    "y": 430,
+    "z": 6,
+    "height": 270,
+    "width": 1240,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fct_ligne_commande"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "fct_ligne_commande.Total Revenue",
+              "nativeQueryRef": "Total Revenue",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_produit"
+                    }
+                  },
+                  "Property": "libelle"
+                }
+              },
+              "queryRef": "dim_produit.libelle",
+              "nativeQueryRef": "libelle",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
