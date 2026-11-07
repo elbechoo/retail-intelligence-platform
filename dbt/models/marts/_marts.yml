@@ -1,0 +1,123 @@
+version: 2
+
+models:
+  - name: dim_date
+    columns:
+      - name: date_id
+        tests: [unique, not_null]
+      - name: date_complete
+        tests: [unique, not_null]
+
+  - name: dim_produit
+    description: One row per stock code that has been sold at least once.
+    columns:
+      - name: produit_id
+        tests: [unique, not_null]
+      - name: chiffre_affaires
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+  - name: dim_client
+    description: One row per customer with at least one attributable sale.
+    columns:
+      - name: client_id
+        tests: [unique, not_null]
+      - name: valeur_vie
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+      - name: nb_commandes
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+      - name: taux_retour
+        description: Returned value over lifetime value. Can exceed 1.
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+  - name: fct_ligne_commande
+    description: "Grain: one invoice line that is a sale."
+    columns:
+      - name: ligne_id
+        tests: [unique, not_null]
+      - name: date_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_id
+      - name: client_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_client')
+                field: client_id
+      - name: produit_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_produit')
+                field: produit_id
+      - name: quantite
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+
+  - name: fct_commande
+    description: "Grain: one invoice. Includes unattributed invoices."
+    columns:
+      - name: commande_id
+        tests: [unique, not_null]
+      - name: montant
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+  - name: fct_rfm
+    description: "Grain: one customer."
+    columns:
+      - name: client_id
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_client')
+                field: client_id
+      - name: score_rfm
+        tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 3
+                max_value: 15
+      - name: segment
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["Champions", "Clients fideles", "Nouveaux clients",
+                         "A risque", "Perdus", "A developper"]
+
+  - name: fct_retention_cohorte
+    description: "Grain: one cohort per month offset."
+    columns:
+      - name: taux_retention
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 1

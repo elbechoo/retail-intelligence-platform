@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: dbt build on real data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      # The dataset is 45 MB and UCI is not always quick. Cache it so CI does
+      # not re-download on every push.
+      - name: Cache the UCI dataset
+        uses: actions/cache@v4
+        with:
+          path: data/raw
+          key: online-retail-ii-v1
+
+      - name: Load raw data
+        run: python ingest/load_raw.py
+
+      - name: dbt deps
+        working-directory: dbt
+        run: dbt deps --profiles-dir .
+
+      # build = run the models AND run every test. A model that compiles but
+      # produces wrong numbers fails here, which is the point.
+      - name: dbt build
+        working-directory: dbt
+        run: dbt build --profiles-dir . --target ci
+
+      - name: Publish the row counts that the README claims
+        working-directory: dbt
+        run: dbt run-operation print_resume --profiles-dir . --target ci

@@ -1,0 +1,13 @@
+# DuckDB: the whole warehouse is one file in the repo root. No server, no
+# credentials, no cloud account - `git clone` then `dbt build` and it runs.
+retail:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../retail.duckdb
+      threads: 4
+    ci:
+      type: duckdb
+      path: ../retail.duckdb
+      threads: 2

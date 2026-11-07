@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: raw
+    description: >
+      Online Retail II exactly as it arrives from UCI, unioned across the two
+      yearly sheets by ingest/load_raw.py. Nothing is cleaned here on purpose:
+      every correction should be visible and tested in staging rather than
+      buried in a loader.
+    schema: raw
+    tables:
+      - name: online_retail
+        columns:
+          - name: invoice
+            description: >
+              Invoice number. A leading 'C' marks a cancellation, which is how
+              returns are represented - there is no separate returns table.
+            tests: [not_null]
+          - name: stock_code
+            description: >
+              Product code, but not always a product: POST, BANK CHARGES, M
+              (manual), D (discount) and test rows share this column.
+            tests: [not_null]
+          - name: quantity
+            description: Negative on cancellations and on manual adjustments.
+            tests: [not_null]
+          - name: price
+            description: Unit price in GBP. Zero and negative values both occur.
+            tests: [not_null]
+          - name: invoice_date
+            tests: [not_null]
+          - name: customer_id
+            description: >
+              Null on roughly a quarter of rows. Those are real transactions
+              but cannot be attributed to a customer, so they are excluded from
+              anything customer-grained and kept in order-grained revenue.
