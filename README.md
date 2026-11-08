@@ -126,6 +126,90 @@ the model was rebuilt.
 months-since-first-order. Later cohorts are truncated by the end of the data;
 that is a property of the dataset, not a finding.
 
+## The bug that only Power BI could find
+
+`dim_produit.produit_id` passed dbt's `unique` test and Power BI still refused
+to load the table:
+
+> Column 'produit_id' in Table 'dim_produit' contains a duplicate value '15056BL'
+
+Both engines were right. **DuckDB compares strings case-sensitively**, so
+`15056BL` and `15056bl` are two products and the key is unique. **Power BI's
+engine compares case-insensitively**, so they are one product and the key is
+not.
+
+The fix belongs in the warehouse, not the report: staging now upper-cases the
+stock code, because they are the same product and the warehouse should say so
+rather than leave every consumer to find out separately. 170 codes merged;
+4,901 products became 4,731.
+
+`tests/assert_produit_id_unique_sans_casse.sql` stops it regressing. The
+general rule it encodes is worth more than the specific fix:
+
+> A warehouse must guarantee its keys under the **weakest** comparison any
+> consumer will use, not the strongest one its own engine happens to offer.
+
+## Power BI model
+
+`powerbi/` holds a `.pbip` project: the semantic model as TMDL and the report
+as PBIR, both plain text in the repository.
+
+The model is not clicked together and saved. It is **built by script**:
+
+| Script | What it does |
+|---|---|
+| `powerbi/build_model.ps1` | Creates the 7 tables with Power Query pointed at the Parquet exports, and the 11 DAX measures |
+| `analysis/generate_model_script.py` | Reads the column list out of DuckDB and generates the next script, so the model's shape is derived from the marts rather than restated beside them |
+| `powerbi/build_columns.ps1` | Declares every column with its type, refreshes, marks the date table, creates the 6 relationships |
+
+Both run against a live Power BI Desktop instance through
+[pbi-cli](https://github.com/MinaSaad1/pbi-cli).
+
+Why bother, when the UI is faster the first time: a model built by clicking
+exists only as a binary, and a measure change arrives in review as a
+screenshot. Built this way, every measure carries its reasoning next to the
+DAX - why `DIVIDE` rather than `/`, why `dim_date` must be marked, why
+`fct_retention_cohorte` is deliberately left unrelated - and a reviewer can
+read the diff.
+
+`DECIMAL` maps to `decimal`, not `double`. `montant` is money and the dbt
+suite reconciles revenue to the penny; loading it as a float would give that
+guarantee away at the final step.
+
+### The report
+
+`powerbi/build_report.ps1` builds the Overview page: four KPI cards, revenue
+by month, revenue by RFM segment, and a product table. The report layer writes
+PBIR JSON directly, so it needs no Power BI connection - close Desktop before
+running it or Desktop will write the files back from memory.
+
+Each visual lands in its own `visual.json`, which is the point: moving a chart
+or rebinding a field shows up as a diff on one small file instead of a new
+binary.
+
+The line chart plots `dim_date[annee_mois]`, a 'YYYY-MM' string, rather than
+`date_complete`. It sorts chronologically as text, so the axis is right
+without a sort-by-column, and the chart has 25 points instead of 761.
+
+The numbers on the page reconcile with the warehouse: GBP 17.4M revenue and
+5,852 customers on the cards match `dbt run-operation print_resume` exactly.
+`Orders` reads ~37K rather than 39,516 because it counts attributable
+invoices; the unattributed ones live in `fct_commande` by design.
+
+### Running it
+
+```powershell
+python analysis/export_for_powerbi.py      # marts -> powerbi/data/*.parquet
+# open powerbi/Retail Analytics.pbip in Power BI Desktop
+pbi connect
+.\powerbi\build_model.ps1
+python analysis/generate_model_script.py
+.\powerbi\build_columns.ps1
+```
+
+The Parquet exports are not committed: they are derived data, 22 MB of it, and
+stale the moment a model changes. Run the export before opening the project.
+
 ## Running it
 
 ```bash
@@ -159,7 +243,7 @@ so these cannot drift away from what the warehouse actually contains.
 | Sale lines, attributable | 802,634 |
 | Sale invoices | 39,516 |
 | Customers | 5,852 |
-| Products | 4,901 |
+| Products | 4,731 |
 | Revenue, attributable lines | GBP 17,434,464.73 |
 | Invoices with no customer ID | 2,922 |
 | Customers scored "Champions" | 1,335 |
