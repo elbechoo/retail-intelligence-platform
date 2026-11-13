@@ -1,5 +1,8 @@
 # Retail Analytics Warehouse
 
+**Start here: [the business case](CASE.md)** - the question, the metric definitions, and the decision this supports.
+What follows is how it was built.
+
 An analytics-engineering project on **real** retail data: dbt models over
 DuckDB, building a dimensional warehouse with RFM segmentation and cohort
 retention, every layer covered by tests that run in CI.
